@@ -22,15 +22,15 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(CMAKE_C_FLAGS   "-mcpu=cortex-m0plus -mthumb -Wall")
 set(CMAKE_CXX_FLAGS "-mcpu=cortex-m0plus -mthumb -Wall")
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m0plus -mthumb -Wall")
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m0plus -mthumb -nostdlib -Wall -Wl,-Map=${CMAKE_PROJECT_NAME}.map")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m0plus -mthumb -nostdlib -Wall -Wl,-Map=$minimal.map")
 
 set(CMAKE_C_FLAGS_DEBUG "-Og -g")
 set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 set(CMAKE_ASM_FLAGS_DEBUG "-g")
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "")
 
-set(CMAKE_C_FLAGS_RELEASE "")
-set(CMAKE_CXX_FLAGS_RELEASE "")
+set(CMAKE_C_FLAGS_RELEASE "-Os")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 set(CMAKE_ASM_FLAGS_RELEASE "")
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE "")
 
