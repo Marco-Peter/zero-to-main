@@ -1,0 +1,11 @@
+Compiling
+~/.local/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc -c -mcpu=cortex-m0plus -mthumb -o minimal.o minimal.c -ISTM32G0xx_HAL_Driver/Inc/ -ICMSIS/Device/ST/STM32G0xx/Include/ -DSTM32G031xx -ICMSIS/Include/
+
+Linking
+~/.local/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc -mcpu=cortex-m0plus -mthumb -o minimal.elf -T minimal.ld -nostdlib minimal.o startup_stm32g03x.o -L. -lll
+
+Compiler Flags:
+-mcpu=cortex-m0plus -mthumb
+
+Linker Flags:
+-mcpu=cortex-m0plus -mthumb -nostdlib
