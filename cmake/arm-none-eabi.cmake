@@ -18,10 +18,12 @@ set(CMAKE_ASM_COMPILER ${TOOLCHAIN_BIN_DIR}/${TOOLCHAIN}-gcc${TOOLCHAIN_EXT})
 
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
+# Disabled flags:
+# -Wconversion
 set(GENERIC_FLAGS "-mcpu=cortex-m0plus -mthumb -fanalyzer \
                    -fdata-sections -ffunction-sections -fno-common -fstack-usage \
                    -Wall -Werror -Wdouble-promotion -Wformat=2 -Wundef \
-                   -Wformat-truncation=2 -Wconversion")
+                   -Wformat-truncation=2")
 set(CMAKE_C_FLAGS   "${GENERIC_FLAGS}")
 set(CMAKE_CXX_FLAGS "${GENERIC_FLAGS}")
 set(CMAKE_ASM_FLAGS "${GENERIC_FLAGS}")
