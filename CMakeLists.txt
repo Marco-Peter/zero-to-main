@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
 
+if (NOT TOOLCHAIN_PREFIX)
+if (WIN32)
+set(TOOLCHAIN_PREFIX "C:/Users/Marco/gcc-arm-none-eabi-10.3-2021.10-win32")
+else()
 set(TOOLCHAIN_PREFIX "/home/marco/.local/gcc-arm-none-eabi-10.3-2021.10")
+endif()
+endif()
 message("Using toolchain in ${TOOLCHAIN_PREFIX}")
 
 include(cmake/arm-none-eabi.cmake)
