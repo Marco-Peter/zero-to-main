@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "cstdint": "cpp"
-    }
+        "cstdint": "cpp",
+        "stdint.h": "c"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

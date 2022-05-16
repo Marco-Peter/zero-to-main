@@ -40,10 +40,12 @@ target_link_libraries(hal_driver PUBLIC
 
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE
+        src/hal.c
         src/minimal.c
         src/startup_stm32g03x.c
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
         STM32G0xx_HAL_Driver/Inc
         CMSIS/Device/ST/STM32G0xx/Include
         CMSIS/Include
