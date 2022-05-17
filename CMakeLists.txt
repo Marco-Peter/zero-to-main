@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 if (NOT TOOLCHAIN_PREFIX)
 if (WIN32)
-set(TOOLCHAIN_PREFIX "C:/Users/Marco/gcc-arm-none-eabi-10.3-2021.10-win32")
+set(TOOLCHAIN_PREFIX "C:/gcc-arm-none-eabi-10.3-2021.10")
 else()
 set(TOOLCHAIN_PREFIX "/home/marco/.local/gcc-arm-none-eabi-10.3-2021.10")
 endif()
@@ -39,6 +39,11 @@ target_link_libraries(hal_driver PUBLIC
 )
 
 add_executable(${PROJECT_NAME})
+set_target_properties(
+        ${PROJECT_NAME}
+        PROPERTIES
+                SUFFIX ".elf"
+)
 target_sources(${PROJECT_NAME} PRIVATE
         src/hal.c
         src/minimal.c
@@ -59,12 +64,12 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 #target_compile_options(${PROJECT_NAME} PRIVATE
 #        -ffreestanding
 #)
-#target_link_options(${PROJECT_NAME} PRIVATE
+target_link_options(${PROJECT_NAME} PRIVATE
 #        -nostdlib
-#        -T${CMAKE_CURRENT_LIST_DIR}/minimal.ld
-#)
+        -T${CMAKE_CURRENT_LIST_DIR}/minimal.ld
+)
 add_custom_command(TARGET ${PROJECT_NAME}
         POST_BUILD
-        COMMAND ${TOOLCHAIN_BIN_DIR}/${TOOLCHAIN}-size${TOOLCHAIN_EXT} ARGS minimal
+        COMMAND ${TOOLCHAIN_BIN_DIR}/${TOOLCHAIN}-size${TOOLCHAIN_EXT} ARGS ${PROJECT_NAME}.elf
         COMMENT "\nResulting size of application:\n"
 )

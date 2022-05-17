@@ -4,7 +4,9 @@
         "stdint.h": "c",
         "stm32g0xx_ll_usart.h": "c",
         "stm32g0xx.h": "c",
-        "stm32g031xx.h": "c"
+        "stm32g031xx.h": "c",
+        "hal.h": "c"
     },
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.configureOnOpen": true
 }

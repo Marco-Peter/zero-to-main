@@ -2,6 +2,14 @@
 #include <sys/stat.h>
 #include <stdbool.h>
 
+#include <stm32g0xx_ll_gpio.h>
+#include <stm32g0xx_ll_usart.h>
+#include <stm32g0xx_ll_bus.h>
+#include <stm32g0xx_ll_system.h>
+#include <stm32g0xx_ll_cortex.h>
+#include <stm32g0xx_ll_rcc.h>
+#include <stm32g0xx_ll_utils.h>
+
 #define SYS_CLOCK_RATE 16000000
 #define BAUDRATE 115200
 
@@ -10,6 +18,7 @@ unsigned char _end;
 static void send_character(unsigned char c);
 static char receive_character(void);
 
+//static void __attribute__((constructor)) init_system_clock(void)
 void init_system_clock(void)
 {
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
@@ -17,30 +26,61 @@ void init_system_clock(void)
 
 
         LL_RCC_HSI_Enable();
-        while(LL_RCC_HSI_IsReady() != 1)
-        {
-        }
+        while(LL_RCC_HSI_IsReady() != 1);
 
         LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
         LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
-        while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
-        {
-        }
+        while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI);
         LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
 
         LL_Init1msTick(SYS_CLOCK_RATE);
         LL_SetSystemCoreClock(SYS_CLOCK_RATE);
 }
 
-void init_usart2()
+void  init_usart1(void)
 {
+        LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+        LL_RCC_SetUSARTClockSource(LL_RCC_USART1_CLKSOURCE_PCLK1);
+
+        LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_6, LL_GPIO_AF_0);
+        LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_7, LL_GPIO_AF_0);
+        LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_6, LL_GPIO_MODE_ALTERNATE);
+        LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_7, LL_GPIO_MODE_ALTERNATE);
+        LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_6, LL_GPIO_PULL_UP);
+        LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_7, LL_GPIO_PULL_UP);
+
+        LL_USART_Disable(USART1);
+        LL_USART_SetTransferDirection(USART1, LL_USART_DIRECTION_TX_RX);
+        LL_USART_ConfigCharacter(USART1, LL_USART_DATAWIDTH_8B,
+                                 LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
+        LL_USART_SetBaudRate(USART1, SYS_CLOCK_RATE, LL_USART_PRESCALER_DIV1,
+                             LL_USART_OVERSAMPLING_16, BAUDRATE);
+        LL_USART_Enable(USART1);
+        LL_USART_EnableDirectionTx(USART1);
+}
+
+//static void __attribute__((constructor)) init_usart2()
+void  init_usart2(void)
+{
+        LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+
+        LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_1);
+        LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_3, LL_GPIO_AF_1);
+        LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_ALTERNATE);
+        LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_3, LL_GPIO_MODE_ALTERNATE);
+        LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_2, LL_GPIO_PULL_UP);
+        LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_3, LL_GPIO_PULL_UP);
+
         LL_USART_Disable(USART2);
         LL_USART_SetTransferDirection(USART2, LL_USART_DIRECTION_TX_RX);
         LL_USART_ConfigCharacter(USART2, LL_USART_DATAWIDTH_8B,
                                  LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
         LL_USART_SetBaudRate(USART2, SYS_CLOCK_RATE, LL_USART_PRESCALER_DIV1,
-                             LL_USART_OVERSAMPLING_8, BAUDRATE);
+                             LL_USART_OVERSAMPLING_16, BAUDRATE);
+        LL_USART_Enable(USART2);
+        LL_USART_EnableDirectionTx(USART2);
 }
 
 int _close(int fd) {

@@ -8,8 +8,9 @@ uint32_t SystemCoreClock = 16000000UL;
 
 int main(void)
 {
-        init_system_clock();
-        init_usart2();
-        //printf("Hello World!");
-        puts("Hello World!");
+        static int count;
+
+        count = printf("Hello World!\n");
+        //count = puts("Hello World!");
+        count++;
 }

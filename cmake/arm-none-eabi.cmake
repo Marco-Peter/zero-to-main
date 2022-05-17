@@ -27,7 +27,8 @@ set(GENERIC_FLAGS "-mcpu=cortex-m0plus -mthumb -fanalyzer \
 set(CMAKE_C_FLAGS   "${GENERIC_FLAGS}")
 set(CMAKE_CXX_FLAGS "${GENERIC_FLAGS}")
 set(CMAKE_ASM_FLAGS "${GENERIC_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${GENERIC_FLAGS} -Wl,-Map=$memory.map,--gc-sections")
+set(CMAKE_EXE_LINKER_FLAGS "${GENERIC_FLAGS} --specs=nano.specs \
+                            -Wl,-Map=memory.map,--gc-sections")
 
 set(CMAKE_C_FLAGS_DEBUG "-Og -g3")
 set(CMAKE_CXX_FLAGS_DEBUG "-Og -g3")
@@ -36,8 +37,11 @@ set(CMAKE_EXE_LINKER_FLAGS_DEBUG "")
 
 set(CMAKE_C_FLAGS_RELEASE "-Os")
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+#set(CMAKE_C_FLAGS_RELEASE "-Os -flto -ffat-lto-objects")
+#set(CMAKE_CXX_FLAGS_RELEASE "-Os -flto -ffat-lto-objects")
 set(CMAKE_ASM_FLAGS_RELEASE "")
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE "")
+#set(CMAKE_EXE_LINKER_FLAGS_RELEASE "--use-linker-plugin -flto")
 
 set(CMAKE_FIND_ROOT_PATH ${TOOLCHAIN_PREFIX}/${${TOOLCHAIN}})
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
