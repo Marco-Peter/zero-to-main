@@ -10,7 +10,7 @@ int main(void)
 {
         static int count;
 
-        count = printf("Hello World!\n");
+        count = printf("Hello LTO!\n");
         //count = puts("Hello World!");
         count++;
 }

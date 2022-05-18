@@ -10,7 +10,7 @@ endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 message("Using toolchain in ${TOOLCHAIN_PREFIX}")
 
-include(cmake/arm-none-eabi.cmake)
+include(cmake/arm-none-eabi-lto.cmake)
 
 project(minimal C)
 

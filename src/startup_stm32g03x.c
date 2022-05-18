@@ -20,7 +20,7 @@ static void copy_initvals(void);
 static void clear_bss(void);
 int main(void);
 
-__attribute__ ((section(".vectors")))
+__attribute__ ((section(".vectors"))) __attribute__((used))
 const struct {
         void *stack_pointer;
         interrupt_function reset_handler;
@@ -40,8 +40,7 @@ static void reset_handler(void)
 
         /* Run constructors / initializers */
         //__libc_init_array();
-        init_system_clock();
-        init_usart2();
+        hal_init();
 
         /* Branch to main function */
         main();
