@@ -88,9 +88,12 @@ int _read(int fd, char *buf, int count)
 {
         int read;
 
+        LL_USART_EnableDirectionRx(CONSOLE_UART);
+        (void)LL_USART_ReceiveData8(CONSOLE_UART);
         for (read = 0; read < count; ++read) {
                 buf[read] = receive_character();
         }
+        LL_USART_DisableDirectionRx(CONSOLE_UART);
         return read;
 }
 
